@@ -1,0 +1,52 @@
+[
+  {
+    "id": "doc1",
+    "title": "Getting Started with Python",
+    "text": "Python is a versatile programming language that is easy to learn. This tutorial covers the basics of Python including variables, loops, and functions. Perfect for beginners."
+  },
+  {
+    "id": "doc2",
+    "title": "Advanced Python Design Patterns",
+    "text": "This guide explores advanced Python design patterns such as singleton, observer, and factory patterns. Learn how to write more maintainable and scalable Python code."
+  },
+  {
+    "id": "doc3",
+    "title": "JavaScript Web Development",
+    "text": "JavaScript is the language of the web. This tutorial teaches you how to build interactive websites using JavaScript, HTML, and CSS. Learn DOM manipulation and asynchronous programming."
+  },
+  {
+    "id": "doc4",
+    "title": "Data Science with Python",
+    "text": "Python is widely used in data science. This course covers pandas, NumPy, and scikit-learn for data analysis, machine learning, and visualization. Build real-world data science projects."
+  },
+  {
+    "id": "doc5",
+    "title": "Machine Learning Fundamentals",
+    "text": "Understand the fundamentals of machine learning including supervised learning, unsupervised learning, and reinforcement learning. Learn algorithms and how to evaluate model performance."
+  },
+  {
+    "id": "doc6",
+    "title": "Natural Language Processing with Python",
+    "text": "NLP is a field of artificial intelligence that focuses on text analysis. Learn how to process text data using Python libraries like NLTK and spaCy for sentiment analysis and named entity recognition."
+  },
+  {
+    "id": "doc7",
+    "title": "Deep Learning and Neural Networks",
+    "text": "Deep learning uses artificial neural networks to process large amounts of data. This guide covers convolutional neural networks, recurrent neural networks, and transformers using TensorFlow and PyTorch."
+  },
+  {
+    "id": "doc8",
+    "title": "Cloud Computing with AWS",
+    "text": "Amazon Web Services offers a range of cloud computing services. Learn how to deploy applications, manage databases, and scale infrastructure using AWS EC2, S3, and RDS."
+  },
+  {
+    "id": "doc9",
+    "title": "Docker and Containerization",
+    "text": "Docker simplifies application deployment by containerizing software. Learn how to create, manage, and deploy Docker containers for consistent environments across development and production."
+  },
+  {
+    "id": "doc10",
+    "title": "Kubernetes Orchestration",
+    "text": "Kubernetes is an open-source container orchestration platform. Master deployment, scaling, and management of containerized applications using Kubernetes clusters and services."
+  }
+]

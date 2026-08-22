@@ -1,0 +1,9 @@
+# Core dependencies for AI Engineering Lab
+# Python 3.11+
+
+# (Currently empty; we use only standard library for Day 1–2)
+# Will add:
+# - pymongo (Day 5)
+# - openai (Day 7)
+# - boto3 (Day 10, optional)
+# - google-cloud-* (Day 10, optional)

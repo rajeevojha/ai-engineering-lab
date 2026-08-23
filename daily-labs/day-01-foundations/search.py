@@ -54,7 +54,19 @@ class BM25Search:
         # 2. For each token, append the document's ID to self.index[token].
         # 3. Store document lengths in self.doc_lengths.
         # 4. Compute self.avg_doc_length as the average of all doc lengths.
-        pass
+        total_length = 0
+        for doc in self.documents:
+            ts = self._tokenize(doc["text"])
+            self.index['zzzzz']=[]
+            for t in ts:
+                if t not in self.index:
+                    self.index[t]=[]
+                self.index[t].append(doc["id"])
+                self.doc_lengths[doc["id"]] = len(doc["text"])
+            total_length+=len(doc["text"])
+        self.avg_doc_length = total_length/len(self.documents)
+        print(1)
+        # pass
     
     def _tokenize(self, text: str) -> List[str]:
         """
@@ -69,7 +81,8 @@ class BM25Search:
         # TODO: Implement simple tokenization
         # For now, just split on whitespace and convert to lowercase.
         # Do not remove punctuation or stop words (we'll keep it simple).
-        pass
+        # pass
+        return [x.lower() for x in text.split()]
     
     def _idf(self, term: str) -> float:
         """
@@ -86,7 +99,10 @@ class BM25Search:
         # - df = number of documents containing the term
         # - IDF = log(N / (1 + df))
         # The +1 in denominator prevents division by zero.
-        pass
+        df = len(set(self.index[term]))        # df = len([x for x in self.index if x == term])
+        print(df)
+        return math.log(len(self.documents)/(1+df))
+        # pass
     
     def _score_document(self, doc_id: str, query_terms: List[str]) -> float:
         """
@@ -139,11 +155,12 @@ class BM25Search:
 # Example usage (for testing):
 if __name__ == "__main__":
     import json
-    
-    # Load sample documents
+
+
+    # # Load sample documents
     with open("fixtures/documents.json") as f:
         docs = json.load(f)
-    
+    # docs= data
     # Create search engine
     engine = BM25Search(docs)
     

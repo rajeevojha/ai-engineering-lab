@@ -255,12 +255,12 @@ For every day (not just Day 1), use this rhythm:
 
 You'll know you're done when:
 
-- [ ] All tests in `test_search.py` pass
-- [ ] `ruff check .` shows no violations
-- [ ] You can explain BM25 in one sentence
-- [ ] You've tested "no matches" and "empty query" cases manually
-- [ ] Reflections are written in the README
-- [ ] Branch is pushed and PR is opened
+- [x] All tests in `test_search.py` pass
+- [x] `ruff check .` shows no violations
+- [x] You can explain BM25 in one sentence
+- [x] You've tested "no matches" and "empty query" cases manually
+- [x] Reflections are written in the README
+- [x] Branch is pushed and PR is opened
 
 ---
 

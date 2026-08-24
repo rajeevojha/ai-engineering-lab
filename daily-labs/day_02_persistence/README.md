@@ -121,8 +121,8 @@ git push origin main --tags
 
 **Phase 1: Local Foundations**
 
-- [ ] **Day 1:** Local search baseline (inverted index, BM25, synthetic documents)
-- [ ] **Day 2:** Persistence and SQL (SQLite schema, filtering, joins)
+- [x] **Day 1:** Local search baseline (inverted index, BM25, synthetic documents)
+- [x] **Day 2:** Persistence and SQL (SQLite schema, filtering, joins)
 
 **Phase 2: Vector Embeddings and Retrieval**
 

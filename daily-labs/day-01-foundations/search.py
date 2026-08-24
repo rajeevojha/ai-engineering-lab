@@ -7,8 +7,6 @@ Students will complete the implementation following the README guide.
 
 import math
 import re
-from typing import List, Tuple, Dict, Optional
-from collections import defaultdict
 
 
 class BM25Search:
@@ -19,7 +17,7 @@ class BM25Search:
     document frequency, normalized for document length.
     """
     
-    def __init__(self, documents: List[Dict[str, str]], k1: float = 1.5, b: float = 0.75):
+    def __init__(self, documents: list[dict[str, str]], k1: float = 1.5, b: float = 0.75):
         """
         Initialize the search engine with a list of documents.
         
@@ -72,7 +70,7 @@ class BM25Search:
             self.avg_doc_length = 0.0
         # pass
     
-    def _tokenize(self, text: str) -> List[str]:
+    def _tokenize(self, text: str) -> list[str]:
         """
         Tokenize text into terms.
         
@@ -123,7 +121,7 @@ class BM25Search:
         idf = math.log((len(self.documents) - doc_frequency + 0.5) / (doc_frequency + 0.5) + 1)
         return idf
     
-    def _score_document(self, doc_id: str, query_terms: List[str]) -> float:
+    def _score_document(self, doc_id: str, query_terms: list[str]) -> float:
         """
         Compute BM25 score for a document given query terms.
         
@@ -167,7 +165,7 @@ class BM25Search:
             score+= idf * (term_frequency * (self.k1+1))/(term_frequency + self.k1 * lf)
         return score
         
-    def retrieve(self, query: str, k: int = 10) -> List[Tuple[str, float]]:
+    def retrieve(self, query: str, k: int = 10) -> list[tuple[str, float]]:
         """
         Retrieve top-k documents for a query, ranked by BM25 score.
         

@@ -6,8 +6,9 @@ Includes logging, timing, and other helpers shared across days.
 
 import logging
 import time
+from collections.abc import Callable
 from functools import wraps
-from typing import Any, Callable
+from typing import Any
 
 
 def setup_logging(name: str, level: str = "INFO") -> logging.Logger:

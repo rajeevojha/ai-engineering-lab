@@ -4,10 +4,10 @@ Tests for Day 1: Local search baseline.
 Run with: python -m pytest test_search.py -v
 """
 
-import pytest
 import json
-from search import BM25Search
 
+import pytest
+from search import BM25Search
 
 # Fixtures
 

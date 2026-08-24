@@ -6,8 +6,7 @@ Students will complete the implementation following the README guide.
 """
 
 import math
-from typing import List, Tuple, Dict, Optional
-from collections import defaultdict
+import re
 
 
 class BM25Search:
@@ -18,7 +17,7 @@ class BM25Search:
     document frequency, normalized for document length.
     """
     
-    def __init__(self, documents: List[Dict[str, str]], k1: float = 1.5, b: float = 0.75):
+    def __init__(self, documents: list[dict[str, str]], k1: float = 1.5, b: float = 0.75):
         """
         Initialize the search engine with a list of documents.
         
@@ -54,9 +53,24 @@ class BM25Search:
         # 2. For each token, append the document's ID to self.index[token].
         # 3. Store document lengths in self.doc_lengths.
         # 4. Compute self.avg_doc_length as the average of all doc lengths.
-        pass
+        total_length = 0
+        for doc in self.documents:
+            ts = self._tokenize(doc["text"])
+            for t in ts:
+                if t not in self.index:
+                    self.index[t]=[]
+                self.index[t].append(doc["id"])
+            self.doc_lengths[doc["id"]] = len(ts)
+            total_length+=len(ts)
+
+        if self.doc_lengths:
+            total_length = sum(self.doc_lengths.values())
+            self.avg_doc_length = total_length / len(self.doc_lengths)
+        else:
+            self.avg_doc_length = 0.0
+        # pass
     
-    def _tokenize(self, text: str) -> List[str]:
+    def _tokenize(self, text: str) -> list[str]:
         """
         Tokenize text into terms.
         
@@ -69,7 +83,11 @@ class BM25Search:
         # TODO: Implement simple tokenization
         # For now, just split on whitespace and convert to lowercase.
         # Do not remove punctuation or stop words (we'll keep it simple).
-        pass
+        # pass
+        if not text:
+            return []
+        return re.findall(r"\w+", text.lower())
+        # return [x.lower() for x in text.split() if x]
     
     def _idf(self, term: str) -> float:
         """
@@ -86,9 +104,24 @@ class BM25Search:
         # - df = number of documents containing the term
         # - IDF = log(N / (1 + df))
         # The +1 in denominator prevents division by zero.
-        pass
+        # df = len(set(self.index.get(term,[])))        # df = len([x for x in self.index if x == term])
+        
+        # return math.log(len(self.documents)/(1+df))
+        # pass
+        if term in self.index:
+            doc_frequency = len(self.index[term])
+        else:
+            doc_frequency = 0
+        
+        # Total number of documents
+        N = len(self.documents)
+        
+        # IDF formula: log(N / (1 + df))
+        # idf = math.log(N / (1 + doc_frequency))
+        idf = math.log((len(self.documents) - doc_frequency + 0.5) / (doc_frequency + 0.5) + 1)
+        return idf
     
-    def _score_document(self, doc_id: str, query_terms: List[str]) -> float:
+    def _score_document(self, doc_id: str, query_terms: list[str]) -> float:
         """
         Compute BM25 score for a document given query terms.
         
@@ -107,9 +140,32 @@ class BM25Search:
         #   - TF(term, doc) = how many times the term appears in doc
         #   - IDF(term) = inverse document frequency
         #   - k1, b are parameters (already set in __init__)
-        pass
-    
-    def retrieve(self, query: str, k: int = 10) -> List[Tuple[str, float]]:
+        if not query_terms:
+            return 0.0
+        
+        doc_length = self.doc_lengths.get(doc_id,0)
+
+        if self.avg_doc_length == 0:
+            return 0.0
+        
+        score = 0.0
+
+        lf = 1 - self.b + self.b * (doc_length/self.avg_doc_length)
+
+        for term in query_terms:
+            doc = next(d for d in self.documents if d['id'] == doc_id)
+            tokens = self._tokenize(doc["text"])
+            term_frequency = tokens.count(term)
+
+            if term_frequency == 0:
+                continue
+
+            idf = self._idf(term)
+
+            score+= idf * (term_frequency * (self.k1+1))/(term_frequency + self.k1 * lf)
+        return score
+        
+    def retrieve(self, query: str, k: int = 10) -> list[tuple[str, float]]:
         """
         Retrieve top-k documents for a query, ranked by BM25 score.
         
@@ -128,22 +184,39 @@ class BM25Search:
             raise ValueError("k must be non-negative")
         
         # TODO: Implement retrieval
+        if not query or not query.strip():
+            return []
+        
+        query_terms = self._tokenize(query)
+
+        if not query_terms:
+            return []
+        scores = []
+
+        for doc in self.documents:
+            doc_id = doc["id"]
+            score = self._score_document(doc_id,query_terms)
+            if score:
+                scores.append((doc_id,score))
+
+        scores.sort(key=lambda x:x[1], reverse=True)
         # 1. If query is empty, return empty list.
         # 2. Tokenize the query.
         # 3. Score all documents using _score_document.
         # 4. Sort by score descending.
         # 5. Return top k (doc_id, score) tuples.
-        pass
-
+        # pass
+        return scores[:k]
 
 # Example usage (for testing):
 if __name__ == "__main__":
     import json
-    
-    # Load sample documents
+
+
+    # # Load sample documents
     with open("fixtures/documents.json") as f:
         docs = json.load(f)
-    
+    # docs= data
     # Create search engine
     engine = BM25Search(docs)
     

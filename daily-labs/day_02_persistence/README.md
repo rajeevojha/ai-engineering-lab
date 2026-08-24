@@ -1,0 +1,2 @@
+SQLite-backed BM25 index with module_type filtering
+one thing that went wrong and got fixed (stale postings on reindex), one limitation (IDF is recomputed per query — fine at this scale, would need caching at real corpus size).

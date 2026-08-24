@@ -1,0 +1,5 @@
+[ {"id": "ORDPROC", "module_type": "RPG", "text": "order processing main program validates customer record calculates discount calls subroutine calcdisc writes order to file"},
+  {"id": "CALCDISC", "module_type": "RPG", "text": "discount calculation subroutine reads vip indicator applies percentage discount based on customer tier"},
+  {"id": "ORDREC", "module_type": "COPYBOOK", "text": "order record layout customer id order date discount code total amount vip indicator"},
+  {"id": "CUSTMAST", "module_type": "COBOL", "text": "customer master file maintenance program updates customer record validates address checks credit limit"},
+  {"id": "CUSTREC", "module_type": "COPYBOOK", "text": "customer master record layout customer id name address credit limit vip indicator"}]

@@ -120,3 +120,6 @@ credentials.json
 # Scratch files
 *.tmp
 scratch/
+
+# db files
+*.db

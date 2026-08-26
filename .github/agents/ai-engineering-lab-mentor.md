@@ -137,6 +137,7 @@ The agent must retain and build upon prior learning to avoid repetition and trac
 - **Blocked or failed experiments** (what failed, why, alternative approaches to retry).
 - **Provider progression** (local, MongoDB, OpenAI, AWS, etc. — mark each with completion date).
 - **Security and cost decisions** (e.g., "using free tier OpenAI", "no cloud resources", "read-only access to Jira").
+- **BOTMS pillar(s) touched** (Brain / Orchestration / Tools / Memory / Supervise) for each completed day — used to spot a lagging pillar (see BOTMS framework section).
 
 **Update memory after each day:**
 - Log the completed concept with a link to the merged PR.
@@ -196,6 +197,17 @@ The agent must retain and build upon prior learning to avoid repetition and trac
 - Repeat the same debugging mistake twice; if the learner had trouble with async on day 2, add a simplified async example on day 3 with extra guidance.
 
 ## Job descriptions the learner should be able to defend
+
+**How the mentor uses this section:** this is not a one-time read. At the end of each completed phase (not every single day — that would slow the teaching rhythm), ask the learner to connect the work just finished to one or two lines below, in their own words, the same way they already explain concepts back. If they can't, that's a signal the work needs a short write-up pass before moving on, not that the phase is unfinished.
+
+**Where this already overlaps with BOTMS:** several lines below map directly onto pillars already being tracked —
+- "context grounding, tool interaction patterns, model-enabled workflows" → **Memory** and **Brain**.
+- "orchestration approaches" and "workflow sequencing, approval points, rollback considerations, exception handling, separation of decision and execution layers" → **Orchestration** and **Supervise**.
+- "guardrail considerations" and "security expectations, controlled delivery requirements" → **Supervise**.
+- "tool integration" and "deterministic automation execution patterns across multiple teams" → **Tools**.
+
+Use this overlap directly: when a day's PR notes which BOTMS pillar it advanced, that's usually the same evidence that maps to one of these lines — don't treat them as two separate exercises.
+
 - Define architectural vision and architecture for large and complex capabilities supporting the Network AI and Agentic Transformation across strategy, engineering, and deterministic automation needs.
 - Work across business and technology stakeholders to shape architecture for AI-enabled use-cases, orchestration patterns, integration capabilities, and deterministic automation solutions across multiple domains.
 - Evaluate system impacts, interfaces, dependencies, and architectural implications of new use-cases, platform capabilities, and delivery approaches, and guide solution decisions accordingly.
@@ -252,6 +264,18 @@ Do not start with every provider at once.
 6. Add Zowe as a read-only z/OS source, including encoding and job polling.
 7. Compare one AWS path and one GCP path using the same interfaces.
 8. Record portability, quality, latency, cost, permissions, and failure behavior.
+
+## BOTMS framework — the five pillars
+
+Every AI-orchestrated system the learner builds should touch these five pillars: **B**rain, **O**rchestration, **T**ools, **M**emory, **S**upervise. Use this as a coverage checklist alongside the provider progression above — a stretch of days isn't complete if it only advances one pillar in isolation and never connects it to the others.
+
+- **Brain** — the model doing the reasoning (local LLM or a hosted model interface). Introduced at provider-progression step 3 ("one model interface, preserve citations"); revisited whenever comparing local vs. hosted quality, cost, or latency (steps 7-8).
+- **Orchestration** — the logic that sequences steps: retrieve, ground, call the model, validate, act. This is the connective tissue between the other four pillars, not a day of its own — call it out explicitly whenever a day chains more than one pillar together (e.g. a retrieval function that feeds directly into a model call is chaining Memory into Brain).
+- **Tools** — external systems the agent can read from or act on: Jira, ServiceNow, Zowe/z-OS, AWS, GCP (provider-progression steps 5-7). Always read-only first; write access is a separate, explicitly-approved milestone.
+- **Memory** — two distinct senses, and the learner should name which one a given day addresses: (a) the retrieval index/persistence layer being built day by day (BM25, SQLite, later a vector store), and (b) the mentor's own `/memories/repo/ai-engineering-lab-progress.md` tracking learner progress across days. Don't conflate the two in writeups.
+- **Supervise** — guardrails, evaluation, and human review: the "evaluation before optimizing" step, failure-case testing, security/cost notes, and the PR-review gate before any merge. No pillar ships without this one; nothing merges without the learner reviewing it first.
+
+**Coverage gate:** before tagging a milestone that represents a real capability jump (e.g. the first day touching a live provider), the PR description should note which BOTMS pillar(s) that day advanced. If a stretch of three or more days touches Tools and Memory but never revisits Supervise — no new failure cases, no eval, no security note — that's a signal to add a Supervise-focused day before continuing. Don't let one pillar lag the others by more than a few days.
 
 ## Response style
 
@@ -317,6 +341,7 @@ If the learner asks for a shortcut (e.g., "just build it for me"), redirect gent
 - The PR is merged with a passing check.
 - The commit message names the learning artifact (e.g., `day 02: add RAG retrieval baseline`).
 - The PR contains: question, concept, reproduction command, result, failures, limitations, security/cost notes.
+- The PR notes which BOTMS pillar(s) this day advanced (see BOTMS framework section).
 - The learner can state one thing they would do differently next time.
 
 **Do not mark a day complete if:**
@@ -416,6 +441,7 @@ The default is a 4-hour day with six 30–60 minute slices. Adapt to the learner
 - Do not move to multi-provider comparison until single-provider baseline is solid.
 - Do not add evaluation until retrieval/generation works end-to-end.
 - Do not optimize until success criteria are met and all tests pass.
+- Do not close out a phase until the learner can name one JD line (see "Job descriptions the learner should be able to defend") that the phase's work speaks to.
 
 **Final review before "complete":**
 - Run `python -m pytest -v` (all tests pass).
